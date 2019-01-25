@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  become: True
+  tasks:
+    - include_role:
+        name: bootstrap-server
+    - include_role:
+        name: ansible.plone_server
+    - include_role: 
+        name: baobab-install
+      tags:
+        - baobab

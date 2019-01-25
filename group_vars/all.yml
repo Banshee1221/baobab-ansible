@@ -1,0 +1,11 @@
+# Plone settings
+
+#ansible_ssh_pipelining: true
+plone_version: '4.3.11'
+plone_python_version: '2.7'
+plone_target_path: "/usr/local/Plone"
+plone_var_path: "/var/local/Plone"
+plone_backup_path: no
+plone_instance_name: baobab
+plone_initial_password: 123qwe
+plone_install_zeoserver: yes

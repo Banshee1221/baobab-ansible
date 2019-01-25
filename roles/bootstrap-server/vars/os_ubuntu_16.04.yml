@@ -1,0 +1,23 @@
+package_list:
+  - build-essential
+  - gcc
+  - python-dev
+  - git-core
+  - libffi-dev
+  - libpcre3
+  - libpcre3-dev
+  - autoconf
+  - libtool
+  - pkg-config
+  - zlib1g-dev
+  - libssl-dev
+  - libexpat1-dev
+  - libxslt1.1
+  - libssl-dev
+  - gnuplot
+  - libcairo2
+  - libpango1.0-0
+  - libgdk-pixbuf2.0-0
+  - libxml2-dev
+  - libxslt1-dev
+  - nginx

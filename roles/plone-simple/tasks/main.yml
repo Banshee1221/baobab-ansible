@@ -1,0 +1,7 @@
+---
+
+- name: Download Plone
+  unarchive:
+    src:  https://launchpad.net/plone/4.3/4.3.11/+download/Plone-4.3.11-r1-UnifiedInstaller.tgz
+    dest: /usr/local/bin
+    remote_src: yes

@@ -1,0 +1,3 @@
+[submodule "roles/ansible.plone_server"]
+	path = roles/ansible.plone_server
+	url = https://github.com/Banshee1221/ansible.plone_server

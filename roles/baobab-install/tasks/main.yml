@@ -1,0 +1,48 @@
+---
+
+- name: Adjust live.cfg
+  block:
+  - name: Fetch copy of live.cfg
+    fetch:
+      src: /usr/local/Plone/baobab/live.cfg
+      dest: /tmp/live.cfg
+      flat: yes
+      force: yes
+
+  - name: Grab original 'eggs'
+    become: False
+    set_fact:
+      message: "{{ lookup('ini', 'eggs section=buildout file=/tmp/live.cfg') }}"
+
+  - name: Update eggs and develop sections
+    become: False
+    local_action:
+      module: replace
+      args:
+        path: /tmp/live.cfg
+        regexp: 'eggs =\n.*(P)[\s\S]*?(?=\n.*?=|$.)'
+        replace: "eggs ={{ message|replace('\n', '\n    ') }}\n    bika.lims\n    baobab.lims\n    graphite.theme\n\ndevelop =\n    src/bika.lims\n    src/baobab.lims\n    src/graphite.theme\n\n"
+
+  - name: Copy file to dest
+    copy:
+      src: "{{ role_path }}/files/buildout.cfg"
+      dest: /usr/local/Plone/baobab/buildout.cfg
+      mode: 0644
+      owner: plone_buildout
+      group: plone_group
+
+- name: Fetch git repo
+  git:
+    repo: "https://github.com/BaobabLims/{{ item }}.git"
+    dest: "{{plone_target_path}}/{{plone_instance_name}}/src/{{ item }}"
+  loop:
+    - bika.lims
+    - baobab.lims
+    - graphite.theme
+
+- name: Run buildout for new components
+  command: ./bin/buildout -c buildout.cfg
+  become: yes
+  become_user: plone_buildout
+  args:
+    chdir: "{{ plone_target_path }}/{{ plone_instance_name }}"
