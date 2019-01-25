@@ -1,2 +1,0 @@
-[baobab]
-192.168.10.26 ansible_user=ubuntu ansible_python_interpreter=/usr/bin/python2.7

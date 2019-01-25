@@ -20,4 +20,7 @@ package_list:
   - libgdk-pixbuf2.0-0
   - libxml2-dev
   - libxslt1-dev
+  - libjpeg-dev
+  - libxslt-dev
+  - supervisor
   - nginx
