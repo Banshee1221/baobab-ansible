@@ -18,6 +18,6 @@ install:
   - pip install ansible-lint
 
 script:
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
-  - ansible-playbook -i tests/inventory tests/test.yml -vvvv
+  - ansible-playbook -i "localhost," site_test.yml --syntax-check
+  - ansible-playbook -i "localhost," site_test.yml -vvvv
   - curl 127.0.0.1:80 | grep -i baobab

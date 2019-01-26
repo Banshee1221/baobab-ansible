@@ -3,8 +3,6 @@
 - hosts: localhost
   connection: local
   become: True
-  vars_files:
-    - ../group_vars/all.yml
   pre_tasks:
   - name: Create directories and clone repos
     block:
