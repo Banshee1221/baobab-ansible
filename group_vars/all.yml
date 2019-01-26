@@ -1,12 +1,17 @@
-# Plone settings
+# Server settings
 
-# THIS STUFF YOU CAN CHANGE
+server_hostname: "baobab-test"
+
+# Plone settings
 plone_target_path: "/usr/local/Plone"
 plone_var_path: "/var/local/Plone"
-plone_instance_name: baobab
+plone_instance_name: "{{ server_hostname }}"
 plone_initial_password: 123qwe
 
-# DO NOT TOUCH THE STUFF BELOW HERE
+
+#####################################
+# DO NOT TOUCH THE STUFF BELOW HERE #
+#####################################
 plone_version: '4.3.11'
 plone_python_version: '2.7'
 plone_install_zeoserver: yes
@@ -23,3 +28,45 @@ plone_buildout_extra: |
     src/baobab.lims
     src/graphite.theme
 plone_client_base_port: 8080
+
+nginx_enable: true
+nginx_main_template_enable: true
+nginx_http_template_enable: true
+
+nginx_http_template:
+  default:
+    template_file: http/default.conf.j2
+    conf_file_name: default.conf
+    conf_file_location: /etc/nginx/conf.d/
+    port: 80
+    server_name: "{{ server_hostname }}"
+    error_page: /usr/share/nginx/html
+    https_redirect: false
+    autoindex: false
+    # ssl:
+    #   cert: /etc/ssl/certs/default.crt
+    #   key: /etc/ssl/private/default.key
+    reverse_proxy:
+      locations:
+        backend:
+          location: /
+          proxy_pass: http://app_servers
+      health_check_plus: false
+    upstreams:
+      app_servers:
+        name: app_servers
+        lb_method: least_conn
+        zone_name: backend
+        zone_size: 64k
+        sticky_cookie: false
+        servers:
+          baobab1:
+            address: localhost
+            port: 8080
+            weight: 1
+            health_check: max_fails=1 fail_timeout=10s
+          baobab2:
+            address: localhost
+            port: 8081
+            weight: 1
+            health_check: max_fails=1 fail_timeout=10s

@@ -49,8 +49,6 @@
         - "{{ plone_instance_name }}_zeoserver"
         - "{{ plone_instance_name }}_zeoclient1"
         - "{{ plone_instance_name }}_zeoclient1"
-      
-    # - include_role: 
-    #     name: baobab-install
-    #   tags:
-    #     - baobab
+    - name: Install and configure NGINX
+      include_role:
+        name: ansible-role-nginx

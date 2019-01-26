@@ -23,4 +23,3 @@ package_list:
   - libjpeg-dev
   - libxslt-dev
   - supervisor
-  - nginx
