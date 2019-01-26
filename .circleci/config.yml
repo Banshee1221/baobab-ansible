@@ -8,6 +8,6 @@ jobs:
     steps:
       - run:
           name: Install System Packages
-          command: pip install --upgrade pip && pip install ansible
+          command: curl https://bootstrap.pypa.io/get-pip.py | python && pip install ansible
 
       - checkout
