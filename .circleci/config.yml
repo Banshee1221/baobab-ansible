@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ansible/ansible:ubuntu1604
+    working_directory: ~/baobab-ansible
+
+    steps:
+      - run:
+          name: Install System Packages
+          command: pip install --upgrade pip && pip install ansible
+
+      - checkout

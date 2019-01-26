@@ -1,6 +1,8 @@
 package_list:
   - build-essential
   - gcc
+  - python
+  - python2.7
   - python-dev
   - git-core
   - libffi-dev
