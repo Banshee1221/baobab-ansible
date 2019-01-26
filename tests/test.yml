@@ -1,0 +1,55 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: True
+  pre_tasks:
+  - name: Create directories and clone repos
+    block:
+      - name: Ensure plone group
+        group:
+          name: plone_group
+      - name: Ensure plone buildout user
+        user:
+          name: plone_buildout
+          group: plone_group
+          generate_ssh_key: yes
+      - name: Ensure plone daemon user
+        user:
+          name: plone_daemon
+          group: plone_group
+      - name: Create directories
+        file:
+          path: "{{ plone_target_path }}/{{ plone_instance_name }}/src/"
+          state: directory
+      - name: Fetch git repos
+        git:
+          repo: "https://github.com/BaobabLims/{{ item }}.git"
+          dest: "{{plone_target_path}}/{{ plone_instance_name }}/src/{{ item }}"
+        loop:
+          - bika.lims
+          - baobab.lims
+          - graphite.theme
+      - name: Set permissions
+        file:
+          dest: "{{ plone_target_path }}"
+          owner: plone_buildout
+          group: plone_group
+          recurse: yes
+  tasks:
+    - include_role:
+        name: bootstrap-server
+    - include_role:
+        name: ansible.plone_server
+  post_tasks:
+    - name: Restart supervisord agents
+      supervisorctl:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - "{{ plone_instance_name }}_zeoserver"
+        - "{{ plone_instance_name }}_zeoclient1"
+        - "{{ plone_instance_name }}_zeoclient1"
+    - name: Install and configure NGINX
+      include_role:
+        name: ansible-role-nginx
