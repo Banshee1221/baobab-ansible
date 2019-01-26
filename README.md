@@ -4,9 +4,13 @@
 
 This ansible playbook is used to deploy a production-ready [Baobab LIMS](https://github.com/BaobabLims/baobab.lims) instance onto a server.
 
-**NB: Please note that this will deploy Baobab and Nginx onto each machine listed in your ansible hosts file. This playbook does not currently support additional features other than a blanket deployment onto a single host.**
+**THIS IS AN EARLY RELEASE. It is currently recommended to only use this playbook against a single Ubuntu 16.04 server. Nothing else is tested!**
 
-**It is currently recommended to only use a single server for this playbook.**
+## TODO
+
+- [ ] Support more Linux flavors for deployment
+- [ ] Additional configuration parameters for Nginx
+
 
 ## Usage
 
